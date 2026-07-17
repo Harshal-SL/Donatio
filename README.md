@@ -5,7 +5,7 @@ Donatio - An Integrated Platform that Connects donar with the donation center .
 
 ## Project Summary
 
-The platform supports two roles:
+The platform supports two roles :
 - `Donors`: discover verified organizations, create donations, track statuses, view certificates, and check leaderboard ranking.
 - `Organizations`: manage profile and donation needs, review incoming donations, accept or reject requests, complete donations, and award points.
 
