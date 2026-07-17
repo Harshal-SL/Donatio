@@ -1,6 +1,6 @@
-# Donato
+# Donatio
 
-Donato - An Integrated Platform that Connects donar with the donation center.
+Donatio - An Integrated Platform that Connects donar with the donation center .
 
 
 ## Project Summary
