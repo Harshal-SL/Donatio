@@ -1,6 +1,7 @@
 # Donato
 
-Donato - A Platform Connecting Donors with Donation Centers.
+Donato - An Integrated Platform that Connects donar with the donation center
+
 
 ## Project Summary
 
