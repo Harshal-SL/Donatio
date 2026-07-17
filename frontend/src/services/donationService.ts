@@ -3,7 +3,7 @@ import { mockDonations, mockLeaderboard } from "./mockData";
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const getAuthToken = (): string => {
   const token = localStorage.getItem('token');
