@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Lock, CheckCircle, Building2 } from "lucide-react";
+import { Eye, EyeOff, Lock, ShieldCheck, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/Logo";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { orgService } from "@/services/orgService";
 import { toast } from "sonner";
 
@@ -15,15 +16,12 @@ const OrgResetPassword = () => {
     password: "",
     confirmPassword: "",
   });
-
-  // Extract access token from URL hash
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Supabase sends the access token in the URL hash
     const hashParams = new URLSearchParams(window.location.hash.substring(1));
     const token = hashParams.get('access_token');
-    
+
     if (token) {
       setAccessToken(token);
     } else {
@@ -34,12 +32,12 @@ const OrgResetPassword = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.password || !formData.confirmPassword) {
       toast.error("Please fill in all fields");
       return;
     }
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -71,17 +69,15 @@ const OrgResetPassword = () => {
 
   if (resetSuccess) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full">
-          <div className="mb-8 text-center">
-            <Logo />
-          </div>
-          <div className="bg-card rounded-2xl shadow-sm border border-border p-8 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+      <div className="min-h-screen bg-background flex items-center justify-center px-4 py-12">
+        <div className="max-w-sm w-full text-center">
+          <Logo />
+          <div className="mt-8 card-base p-6">
+            <div className="w-12 h-12 bg-success/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <ShieldCheck className="w-6 h-6 text-success" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground mb-2">Password Reset Successful</h1>
-            <p className="text-muted-foreground mb-6">
+            <h1 className="text-lg font-bold text-foreground mb-2">Password Reset Successful</h1>
+            <p className="text-sm text-muted-foreground">
               Your organization's password has been updated successfully. Redirecting to login...
             </p>
           </div>
@@ -91,61 +87,62 @@ const OrgResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Left Panel - Form */}
+    <div className="min-h-screen bg-background flex relative">
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="mb-8">
             <Logo />
           </div>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-primary" />
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Building2 className="w-4 h-4 text-primary" />
             </div>
             <span className="text-sm font-medium text-muted-foreground">Organization Portal</span>
           </div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">Reset Your Password</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-xl font-bold text-foreground mb-1">Reset Your Password</h1>
+          <p className="text-sm text-muted-foreground">
             Enter your new password below
           </p>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                New Password
-              </label>
+              <label htmlFor="org-reset-new-password" className="block text-sm font-medium text-foreground mb-1.5">New Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="org-reset-new-password"
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="input-base pl-12 pr-12"
+                  className="input-base pl-10 pr-10"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="w-9 h-9 flex items-center justify-center focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Confirm New Password
-              </label>
+              <label htmlFor="org-reset-confirm-password" className="block text-sm font-medium text-foreground mb-1.5">Confirm New Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="org-reset-confirm-password"
                   type={showPassword ? "text" : "password"}
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="input-base pl-12"
+                  className="input-base pl-10"
                   placeholder="••••••••"
                 />
               </div>
@@ -158,14 +155,13 @@ const OrgResetPassword = () => {
         </div>
       </div>
 
-      {/* Right Panel - Visual */}
-      <div className="hidden lg:flex flex-1 gradient-hero items-center justify-center p-12">
-        <div className="max-w-md text-center text-primary-foreground">
-          <div className="w-20 h-20 bg-primary-foreground/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-            <Lock className="w-10 h-10 text-primary-foreground" />
+      <div className="hidden lg:flex lg:w-96 gradient-primary items-center justify-center p-12">
+        <div className="max-w-sm text-center">
+          <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center mx-auto mb-5 backdrop-blur-sm">
+            <ShieldCheck className="w-7 h-7 text-white" />
           </div>
-          <h2 className="text-2xl font-bold mb-4">Secure Your Organization</h2>
-          <p className="text-primary-foreground/80">
+          <h2 className="text-xl font-bold text-white mb-3">Secure Your Organization</h2>
+          <p className="text-white/70 text-sm leading-relaxed">
             Choose a strong password to keep your organization's account safe and secure.
           </p>
         </div>

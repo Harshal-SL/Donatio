@@ -8,32 +8,28 @@ interface StatusBadgeProps {
 const statusConfig = {
   pending: {
     label: "Pending",
-    className: "bg-warning/15 text-warning border-warning/30",
+    className: "bg-warning/10 text-warning",
   },
   accepted: {
     label: "Accepted",
-    className: "bg-primary/15 text-primary border-primary/30",
+    className: "bg-primary/10 text-primary",
   },
   rejected: {
     label: "Rejected",
-    className: "bg-destructive/15 text-destructive border-destructive/30",
+    className: "bg-destructive/10 text-destructive",
   },
   completed: {
     label: "Completed",
-    className: "bg-success/15 text-success border-success/30",
+    className: "bg-success/10 text-success",
   },
 };
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className }) => {
   const config = statusConfig[status];
-  
+
   return (
     <span
-      className={cn(
-        "badge-status border",
-        config.className,
-        className
-      )}
+      className={cn("badge-status", config.className, className)}
     >
       {config.label}
     </span>

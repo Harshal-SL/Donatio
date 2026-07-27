@@ -114,27 +114,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }}
     >
       {loading ? (
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          height: '100vh',
-          backgroundColor: 'hsl(270, 20%, 98%)'
-        }}>
-          <div style={{ 
-            width: '50px', 
-            height: '50px', 
-            border: '4px solid hsl(270, 20%, 90%)',
-            borderTop: '4px solid hsl(262, 83%, 58%)',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }}></div>
-          <style>{`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          `}</style>
+        <div className="flex items-center justify-center h-screen bg-background">
+          <div className="w-[50px] h-[50px] border-4 border-border border-t-primary rounded-full animate-spin" />
         </div>
       ) : (
         children

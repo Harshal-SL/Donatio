@@ -8,16 +8,14 @@ interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ className = "", showText = true, linkTo = "/" }) => {
   const content = (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <div className="relative">
-        <img 
-          src="/logo.svg" 
-          alt="Donatio Logo" 
-          className="w-10 h-10 object-contain"
-        />
-      </div>
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      <img
+        src="/logo.svg"
+        alt="Donatio Logo"
+        className="w-9 h-9 object-contain"
+      />
       {showText && (
-        <span className="text-xl font-bold text-gradient">Donatio</span>
+        <span className="text-lg font-bold text-gradient">Donatio</span>
       )}
     </div>
   );

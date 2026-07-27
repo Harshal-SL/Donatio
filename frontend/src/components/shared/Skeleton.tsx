@@ -8,7 +8,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ className }) => {
   return (
     <div
       className={cn(
-        "bg-muted/60 rounded-xl animate-pulse",
+        "bg-muted/60 rounded-lg animate-pulse",
         className
       )}
     />
@@ -17,7 +17,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ className }) => {
 
 export const CardSkeleton = () => (
   <div className="card-base p-4">
-    <Skeleton className="h-32 mb-4" />
+    <Skeleton className="h-28 mb-4" />
     <Skeleton className="h-5 w-3/4 mb-2" />
     <Skeleton className="h-4 w-1/2 mb-3" />
     <Skeleton className="h-4 w-full mb-2" />

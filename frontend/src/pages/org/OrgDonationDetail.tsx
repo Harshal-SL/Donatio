@@ -25,12 +25,8 @@ const OrgDonationDetail = () => {
       if (!donationId) return;
       setIsLoading(true);
       try {
-        console.log('Fetching donation:', donationId);
         const response = await getOrgDonationById(donationId);
-        console.log('Donation response:', response);
-        
         if (response.success && response.data) {
-          // Transform backend data to frontend format
           const backendData = response.data;
           const transformedDonation: Donation = {
             id: backendData.id,
@@ -50,11 +46,8 @@ const OrgDonationDetail = () => {
             createdAt: backendData.created_at,
             updatedAt: backendData.updated_at || backendData.created_at
           };
-          
-          console.log('Transformed donation:', transformedDonation);
           setDonation(transformedDonation);
         } else {
-          console.error('No donation data found');
           setDonation(null);
         }
       } catch (error) {
@@ -109,7 +102,7 @@ const OrgDonationDetail = () => {
       <div className="min-h-screen bg-background">
         <OrgNavbar />
         <PageLayout>
-          <Skeleton className="h-8 w-1/3 mb-6" />
+          <Skeleton className="h-6 w-1/3 mb-5" />
           <Skeleton className="h-64 w-full" />
         </PageLayout>
       </div>
@@ -122,13 +115,8 @@ const OrgDonationDetail = () => {
         <OrgNavbar />
         <PageLayout>
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Donation not found</h2>
-            <Link to="/org/dashboard">
-              <Button>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Dashboard
-              </Button>
-            </Link>
+            <h2 className="text-lg font-bold text-foreground mb-3">Donation not found</h2>
+            <Link to="/org/dashboard"><Button><ArrowLeft className="w-4 h-4 mr-2" />Back to Dashboard</Button></Link>
           </div>
         </PageLayout>
       </div>
@@ -139,127 +127,110 @@ const OrgDonationDetail = () => {
     <div className="min-h-screen bg-background">
       <OrgNavbar />
       <PageLayout>
-        <div className="max-w-3xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="mb-6">
             <Link
               to="/org/dashboard"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Dashboard
             </Link>
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                Donation Request
-              </h1>
+              <h1 className="text-lg font-bold text-foreground">Donation Request</h1>
               <StatusBadge status={donation.status} />
             </div>
           </div>
 
-          {/* Donor Info */}
-          <div className="card-base p-6 mb-6">
-            <h2 className="text-lg font-semibold text-foreground mb-4">Donor Information</h2>
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-accent rounded-xl flex items-center justify-center">
-                <User className="w-7 h-7 text-accent-foreground" />
+          <div className="card-base p-5 mb-5">
+            <h2 className="text-sm font-semibold text-foreground mb-3">Donor Information</h2>
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center">
+                <User className="w-6 h-6 text-accent-foreground" />
               </div>
               <div>
-                <p className="font-medium text-foreground text-lg">{donation.donorName}</p>
-                <p className="text-sm text-muted-foreground">Donor ID: {donation.donorId}</p>
+                <p className="text-sm font-medium text-foreground">{donation.donorName}</p>
+                <p className="text-xs text-muted-foreground">Donor ID: {donation.donorId}</p>
               </div>
             </div>
           </div>
 
-          {/* Donation Details */}
-          <div className="card-base p-6 mb-6">
-            <h2 className="text-lg font-semibold text-foreground mb-4">Donation Details</h2>
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                  <Package className="w-5 h-5 text-primary" />
+          <div className="card-base p-5 mb-5">
+            <h2 className="text-sm font-semibold text-foreground mb-3">Donation Details</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="flex items-start gap-2.5">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                  <Package className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Type</p>
-                  <p className="font-medium text-foreground capitalize">{donation.type}</p>
+                  <p className="text-xs text-muted-foreground">Type</p>
+                  <p className="text-sm font-medium text-foreground capitalize">{donation.type}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                  <Gift className="w-5 h-5 text-primary" />
+              <div className="flex items-start gap-2.5">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                  <Gift className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Quantity</p>
-                  <p className="font-medium text-foreground">{donation.quantity}</p>
+                  <p className="text-xs text-muted-foreground">Quantity</p>
+                  <p className="text-sm font-medium text-foreground">{donation.quantity}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                  <Truck className="w-5 h-5 text-primary" />
+              <div className="flex items-start gap-2.5">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                  <Truck className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Delivery Method</p>
-                  <p className="font-medium text-foreground capitalize">
+                  <p className="text-xs text-muted-foreground">Delivery Method</p>
+                  <p className="text-sm font-medium text-foreground capitalize">
                     {donation.deliveryMethod === "pickup" ? "Pickup Requested" : "Drop-off"}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                  <Calendar className="w-5 h-5 text-primary" />
+              <div className="flex items-start gap-2.5">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                  <Calendar className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Preferred Date</p>
-                  <p className="font-medium text-foreground">
-                    {new Date(donation.preferredDate).toLocaleDateString()}
-                  </p>
+                  <p className="text-xs text-muted-foreground">Preferred Date</p>
+                  <p className="text-sm font-medium text-foreground">{new Date(donation.preferredDate).toLocaleDateString()}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                  <Clock className="w-5 h-5 text-primary" />
+              <div className="flex items-start gap-2.5">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Preferred Time</p>
-                  <p className="font-medium text-foreground">{donation.preferredTime}</p>
+                  <p className="text-xs text-muted-foreground">Preferred Time</p>
+                  <p className="text-sm font-medium text-foreground">{donation.preferredTime}</p>
                 </div>
               </div>
             </div>
             {donation.notes && (
-              <div className="mt-6 pt-6 border-t border-border">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                    <FileText className="w-5 h-5 text-primary" />
+              <div className="mt-4 pt-4 border-t border-border">
+                <div className="flex items-start gap-2.5">
+                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                    <FileText className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Notes</p>
-                    <p className="font-medium text-foreground">{donation.notes}</p>
+                    <p className="text-xs text-muted-foreground">Notes</p>
+                    <p className="text-sm text-foreground">{donation.notes}</p>
                   </div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Actions */}
           {donation.status === "pending" && (
-            <div className="card-base p-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">Actions</h2>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  onClick={() => handleStatusUpdate("accepted")}
-                  disabled={isUpdating}
-                  className="flex-1 bg-success hover:bg-success/90 text-success-foreground"
-                >
-                  <CheckCircle className="w-5 h-5 mr-2" />
+            <div className="card-base p-5">
+              <h2 className="text-sm font-semibold text-foreground mb-3">Actions</h2>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button onClick={() => handleStatusUpdate("accepted")} disabled={isUpdating} className="flex-1 bg-success hover:bg-success/90 text-success-foreground">
+                  <CheckCircle className="w-4 h-4 mr-1.5" />
                   Accept Donation
                 </Button>
-                <Button
-                  onClick={() => handleStatusUpdate("rejected")}
-                  disabled={isUpdating}
-                  variant="destructive"
-                  className="flex-1"
-                >
-                  <XCircle className="w-5 h-5 mr-2" />
+                <Button onClick={() => handleStatusUpdate("rejected")} disabled={isUpdating} variant="destructive" className="flex-1">
+                  <XCircle className="w-4 h-4 mr-1.5" />
                   Reject
                 </Button>
               </div>
@@ -267,13 +238,13 @@ const OrgDonationDetail = () => {
           )}
 
           {donation.status === "accepted" && (
-            <div className="card-base p-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">Mark as Completed</h2>
+            <div className="card-base p-5">
+              <h2 className="text-sm font-semibold text-foreground mb-3">Mark as Completed</h2>
               {showCompleteForm ? (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      <Award className="w-4 h-4 inline mr-2" />
+                    <label className="block text-sm font-medium text-foreground mb-1.5">
+                      <Award className="w-3.5 h-3.5 inline mr-1.5" />
                       Reward Points
                     </label>
                     <input
@@ -285,16 +256,12 @@ const OrgDonationDetail = () => {
                       min="1"
                     />
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-3">
                     <Button onClick={handleComplete} disabled={isUpdating} className="flex-1">
-                      <CheckCircle className="w-5 h-5 mr-2" />
-                      Complete & Generate Certificate
+                      <CheckCircle className="w-4 h-4 mr-1.5" />
+                      Complete &amp; Generate Certificate
                     </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowCompleteForm(false)}
-                      disabled={isUpdating}
-                    >
+                    <Button variant="outline" onClick={() => setShowCompleteForm(false)} disabled={isUpdating}>
                       Cancel
                     </Button>
                   </div>
@@ -308,15 +275,15 @@ const OrgDonationDetail = () => {
           )}
 
           {donation.status === "completed" && (
-            <div className="card-base p-6 bg-success/5 border-success/20">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-success/10 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-7 h-7 text-success" />
+            <div className="card-base p-5 bg-success/5 border-success/20">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-6 h-6 text-success" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-foreground">Donation Completed!</h2>
-                  <p className="text-muted-foreground">
-                    {donation.rewardPoints} points awarded • Certificate generated
+                  <h2 className="text-sm font-semibold text-foreground">Donation Completed!</h2>
+                  <p className="text-xs text-muted-foreground">
+                    {donation.rewardPoints} points awarded &bull; Certificate generated
                   </p>
                 </div>
               </div>

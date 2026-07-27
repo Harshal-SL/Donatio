@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, LayoutDashboard, Building2, LogOut } from "lucide-react";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,9 +24,9 @@ export const OrgNavbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           <div className="flex items-center gap-3">
             <Logo linkTo={isOrgAuthenticated ? "/org/dashboard" : "/"} />
             {isOrgAuthenticated && (
@@ -35,7 +36,6 @@ export const OrgNavbar = () => {
             )}
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {isOrgAuthenticated &&
               navItems.map((item) => {
@@ -46,10 +46,10 @@ export const OrgNavbar = () => {
                     key={item.path}
                     to={item.path}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200",
+                      "flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                       isActive
                         ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                     )}
                   >
                     <Icon className="w-4 h-4" />
@@ -59,8 +59,8 @@ export const OrgNavbar = () => {
               })}
           </div>
 
-          {/* Desktop Right Side */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             {isOrgAuthenticated ? (
               <>
                 <span className="text-sm font-medium text-foreground">
@@ -70,46 +70,39 @@ export const OrgNavbar = () => {
                   variant="ghost"
                   size="sm"
                   onClick={handleLogout}
-                  className="text-muted-foreground"
+                  className="text-muted-foreground text-sm"
                 >
-                  <LogOut className="w-4 h-4 mr-2" />
+                  <LogOut className="w-3.5 h-3.5 mr-1.5" />
                   Logout
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/org/login">
-                  <Button variant="ghost" size="sm">
-                    Org Login
-                  </Button>
+                  <Button variant="ghost" size="sm">Org Login</Button>
                 </Link>
                 <Link to="/org/signup">
-                  <Button size="sm" className="btn-primary">
-                    Register Org
-                  </Button>
+                  <Button size="sm">Register Org</Button>
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
+            className="md:hidden p-3 rounded-lg hover:bg-secondary transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4 animate-fade-in">
+          <div className="md:hidden pb-4 space-y-1">
             {isOrgAuthenticated ? (
               <>
-                <div className="px-4 py-3 mb-2 bg-secondary rounded-xl">
-                  <p className="font-semibold text-foreground">
-                    {organization?.name}
-                  </p>
+                <div className="px-3.5 py-2.5 mb-2 bg-secondary rounded-lg">
+                  <p className="font-medium text-foreground text-sm">{organization?.name}</p>
                   <p className="text-xs text-muted-foreground">Organization Account</p>
                 </div>
                 {navItems.map((item) => {
@@ -121,37 +114,38 @@ export const OrgNavbar = () => {
                       to={item.path}
                       onClick={() => setIsOpen(false)}
                       className={cn(
-                        "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                        "flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all",
                         isActive
                           ? "bg-primary/10 text-primary"
                           : "text-muted-foreground hover:bg-secondary"
                       )}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-4 h-4" />
                       {item.label}
                     </Link>
                   );
                 })}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-secondary transition-all"
+                  className="flex items-center gap-3 w-full px-3.5 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  <LogOut className="w-5 h-5" />
+                  <LogOut className="w-4 h-4" />
                   Logout
                 </button>
               </>
             ) : (
               <div className="flex flex-col gap-2 pt-2">
                 <Link to="/org/login" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    Org Login
-                  </Button>
+                  <Button variant="outline" className="w-full">Org Login</Button>
                 </Link>
                 <Link to="/org/signup" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full btn-primary">Register Org</Button>
+                  <Button className="w-full">Register Org</Button>
                 </Link>
               </div>
             )}
+            <div className="flex justify-center pt-2 border-t border-border mt-2">
+              <ThemeToggle />
+            </div>
           </div>
         )}
       </div>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/Logo";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import { userService } from "@/services/userService";
 import { toast } from "sonner";
@@ -18,12 +19,10 @@ const Login = () => {
     password: "",
   });
 
-  // Display verification message if redirected from signup
   useEffect(() => {
     const state = location.state as { message?: string };
     if (state?.message) {
       toast.info(state.message, { duration: 6000 });
-      // Clear the state to prevent showing the message again on refresh
       window.history.replaceState({}, document.title);
     }
   }, [location]);
@@ -49,60 +48,65 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Left Panel - Form */}
+    <div className="min-h-screen bg-background flex relative">
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="mb-8">
             <Logo />
           </div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">Welcome back</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-xl font-bold text-foreground mb-1">Welcome back</h1>
+          <p className="text-sm text-muted-foreground">
             Sign in to continue making a difference
           </p>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="login-email" className="block text-sm font-medium text-foreground mb-1.5">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="login-email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="input-base pl-12"
+                  className="input-base pl-10"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="login-password" className="block text-sm font-medium text-foreground mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="login-password"
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="input-base pl-12 pr-12"
-                  placeholder="••••••••"
+                  className="input-base pl-10 pr-10"
+                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              <div className="text-right mt-2">
-                <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+              <div className="text-right mt-1.5">
+                <Link to="/forgot-password" className="text-xs text-primary hover:underline">
                   Forgot password?
                 </Link>
               </div>
@@ -113,36 +117,31 @@ const Login = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="mt-5 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
             <Link to="/signup" className="font-medium text-primary hover:underline">
               Sign up
             </Link>
           </p>
 
-          <div className="mt-6 pt-6 border-t border-border">
-            <p className="text-center text-sm text-muted-foreground mb-3">
+          <div className="mt-5 pt-5 border-t border-border">
+            <p className="text-center text-sm text-muted-foreground mb-2.5">
               Are you an organization?
             </p>
             <Link to="/org/login">
-              <Button variant="outline" className="w-full">
-                Organization Login
-              </Button>
+              <Button variant="outline" className="w-full">Organization Login</Button>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Right Panel - Visual */}
-      <div className="hidden lg:flex flex-1 gradient-hero items-center justify-center p-12">
-        <div className="max-w-md text-center text-primary-foreground">
-          <div className="w-20 h-20 bg-primary-foreground/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-primary-foreground" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
+      <div className="hidden lg:flex lg:w-96 gradient-primary items-center justify-center p-12">
+        <div className="max-w-sm text-center">
+          <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center mx-auto mb-5 backdrop-blur-sm">
+            <Heart className="w-7 h-7 text-white" />
           </div>
-          <h2 className="text-2xl font-bold mb-4">Make Every Donation Count</h2>
-          <p className="text-primary-foreground/80">
+          <h2 className="text-xl font-bold text-white mb-3">Make Every Donation Count</h2>
+          <p className="text-white/70 text-sm leading-relaxed">
             Track your impact, earn rewards, and connect with organizations that share your values.
           </p>
         </div>

@@ -12,33 +12,29 @@ const badgeConfig = {
   bronze: {
     label: "Bronze",
     icon: Award,
-    className: "bg-amber-700/15 text-amber-700 border-amber-700/30",
-    iconColor: "text-amber-700",
+    className: "bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400",
   },
   silver: {
     label: "Silver",
     icon: Star,
-    className: "bg-slate-400/15 text-slate-500 border-slate-400/30",
-    iconColor: "text-slate-500",
+    className: "bg-muted text-muted-foreground",
   },
   gold: {
     label: "Gold",
     icon: Trophy,
-    className: "bg-yellow-500/15 text-yellow-600 border-yellow-500/30",
-    iconColor: "text-yellow-600",
+    className: "bg-yellow-50 dark:bg-yellow-950 text-yellow-600 dark:text-yellow-400",
   },
   platinum: {
     label: "Platinum",
     icon: Crown,
-    className: "bg-violet-500/15 text-violet-600 border-violet-500/30",
-    iconColor: "text-violet-600",
+    className: "bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400",
   },
 };
 
 const sizeConfig = {
   sm: { container: "px-2 py-0.5 text-xs", icon: "w-3 h-3" },
-  md: { container: "px-3 py-1 text-sm", icon: "w-4 h-4" },
-  lg: { container: "px-4 py-1.5 text-base", icon: "w-5 h-5" },
+  md: { container: "px-2.5 py-1 text-sm", icon: "w-3.5 h-3.5" },
+  lg: { container: "px-3 py-1.5 text-base", icon: "w-4 h-4" },
 };
 
 export const PointsBadge: React.FC<PointsBadgeProps> = ({
@@ -54,13 +50,13 @@ export const PointsBadge: React.FC<PointsBadgeProps> = ({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full font-medium border",
+        "inline-flex items-center gap-1 rounded-full font-medium",
         config.className,
         sizeStyles.container,
         className
       )}
     >
-      <Icon className={cn(sizeStyles.icon, config.iconColor)} />
+      <Icon className={cn(sizeStyles.icon)} />
       {showLabel && config.label}
     </span>
   );

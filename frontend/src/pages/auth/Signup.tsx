@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Phone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/Logo";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import { userService } from "@/services/userService";
 import { toast } from "sonner";
@@ -22,12 +23,12 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.phone || !formData.password) {
       toast.error("Please fill in all fields");
       return;
     }
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -46,15 +47,11 @@ const Signup = () => {
         phone: formData.phone,
         password: formData.password,
       });
-      
-      // Check if email confirmation is required
+
       if (response.emailConfirmationRequired) {
-        toast.success("Account created! Please check your email inbox and confirm your email address to continue.", {
-          duration: 6000,
-        });
+        toast.success("Account created! Please check your email inbox and confirm your email address to continue.", { duration: 6000 });
         navigate("/login", { state: { message: "Please check your email inbox and confirm your email address to continue." } });
       } else {
-        // Auto-login if email confirmation is not required (shouldn't normally happen)
         loginUser(response.user, response.token);
         toast.success("Account created successfully!");
         navigate("/dashboard");
@@ -67,104 +64,102 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Left Panel - Form */}
+    <div className="min-h-screen bg-background flex relative">
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="mb-8">
             <Logo />
           </div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">Create your account</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-xl font-bold text-foreground mb-1">Create your account</h1>
+          <p className="text-sm text-muted-foreground">
             Start your journey of making a difference
           </p>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Full Name
-              </label>
+              <label htmlFor="signup-name" className="block text-sm font-medium text-foreground mb-1.5">Full Name</label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="signup-name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="input-base pl-12"
+                  className="input-base pl-10"
                   placeholder="John Doe"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Email
-              </label>
+              <label htmlFor="signup-email" className="block text-sm font-medium text-foreground mb-1.5">Email</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="signup-email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="input-base pl-12"
+                  className="input-base pl-10"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Phone Number
-              </label>
+              <label htmlFor="signup-phone" className="block text-sm font-medium text-foreground mb-1.5">Phone Number</label>
               <div className="relative">
-                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="signup-phone"
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="input-base pl-12"
+                  className="input-base pl-10"
                   placeholder="+91 98765 43210"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Password
-              </label>
+              <label htmlFor="signup-password" className="block text-sm font-medium text-foreground mb-1.5">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="signup-password"
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="input-base pl-12 pr-12"
-                  placeholder="••••••••"
+                  className="input-base pl-10 pr-10"
+                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Confirm Password
-              </label>
+              <label htmlFor="signup-confirm-password" className="block text-sm font-medium text-foreground mb-1.5">Confirm Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
+                  id="signup-confirm-password"
                   type={showPassword ? "text" : "password"}
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="input-base pl-12"
-                  placeholder="••••••••"
+                  className="input-base pl-10"
+                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
                 />
               </div>
             </div>
@@ -174,36 +169,31 @@ const Signup = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="mt-5 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link to="/login" className="font-medium text-primary hover:underline">
               Sign in
             </Link>
           </p>
 
-          <div className="mt-6 pt-6 border-t border-border">
-            <p className="text-center text-sm text-muted-foreground mb-3">
+          <div className="mt-5 pt-5 border-t border-border">
+            <p className="text-center text-sm text-muted-foreground mb-2.5">
               Want to register an organization?
             </p>
             <Link to="/org/signup">
-              <Button variant="outline" className="w-full">
-                Register Organization
-              </Button>
+              <Button variant="outline" className="w-full">Register Organization</Button>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Right Panel - Visual */}
-      <div className="hidden lg:flex flex-1 gradient-hero items-center justify-center p-12">
-        <div className="max-w-md text-center text-primary-foreground">
-          <div className="w-20 h-20 bg-primary-foreground/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-primary-foreground" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-            </svg>
+      <div className="hidden lg:flex lg:w-96 gradient-primary items-center justify-center p-12">
+        <div className="max-w-sm text-center">
+          <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center mx-auto mb-5 backdrop-blur-sm">
+            <Sparkles className="w-7 h-7 text-white" />
           </div>
-          <h2 className="text-2xl font-bold mb-4">Join Our Community</h2>
-          <p className="text-primary-foreground/80">
+          <h2 className="text-xl font-bold text-white mb-3">Join Our Community</h2>
+          <p className="text-white/70 text-sm leading-relaxed">
             Connect with local organizations, track your donations, and earn rewards for your generosity.
           </p>
         </div>

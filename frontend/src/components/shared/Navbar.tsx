@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Home, User, Trophy, LogOut, Heart } from "lucide-react";
+import { Menu, X, Home, User, Trophy, LogOut, Award } from "lucide-react";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,12 +25,11 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           <Logo linkTo={isAuthenticated ? "/dashboard" : "/"} />
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {isAuthenticated &&
               navItems.map((item) => {
@@ -40,10 +40,10 @@ export const Navbar = () => {
                     key={item.path}
                     to={item.path}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200",
+                      "flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                       isActive
                         ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                     )}
                   >
                     <Icon className="w-4 h-4" />
@@ -53,61 +53,52 @@ export const Navbar = () => {
               })}
           </div>
 
-          {/* Desktop Right Side */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             {isAuthenticated ? (
               <>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-accent rounded-full">
-                  <Heart className="w-4 h-4 text-primary fill-primary" />
-                  <span className="text-sm font-semibold text-accent-foreground">
-                    {user?.points || 0} pts
-                  </span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent rounded-full text-sm font-medium text-accent-foreground">
+                  <Award className="w-3.5 h-3.5 text-primary" />
+                  {user?.points || 0}
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={handleLogout}
-                  className="text-muted-foreground"
+                  className="text-muted-foreground text-sm"
                 >
-                  <LogOut className="w-4 h-4 mr-2" />
+                  <LogOut className="w-3.5 h-3.5 mr-1.5" />
                   Logout
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost" size="sm">
-                    Login
-                  </Button>
+                  <Button variant="ghost" size="sm">Login</Button>
                 </Link>
                 <Link to="/signup">
-                  <Button size="sm" className="btn-primary">
-                    Sign Up
-                  </Button>
+                  <Button size="sm">Sign Up</Button>
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
+            className="md:hidden p-3 rounded-lg hover:bg-secondary transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden pb-4 animate-fade-in">
+          <div className="md:hidden pb-4 space-y-1">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center gap-2 px-4 py-3 mb-2 bg-accent rounded-xl">
-                  <Heart className="w-5 h-5 text-primary fill-primary" />
-                  <span className="font-semibold text-accent-foreground">
-                    {user?.points || 0} points
-                  </span>
+                <div className="flex items-center gap-2 px-3.5 py-2.5 mb-2 bg-accent rounded-lg text-sm font-medium text-accent-foreground">
+                  <Award className="w-4 h-4 text-primary" />
+                  {user?.points || 0} points
                 </div>
                 {navItems.map((item) => {
                   const Icon = item.icon;
@@ -118,37 +109,38 @@ export const Navbar = () => {
                       to={item.path}
                       onClick={() => setIsOpen(false)}
                       className={cn(
-                        "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                        "flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all",
                         isActive
                           ? "bg-primary/10 text-primary"
                           : "text-muted-foreground hover:bg-secondary"
                       )}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-4 h-4" />
                       {item.label}
                     </Link>
                   );
                 })}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-secondary transition-all"
+                  className="flex items-center gap-3 w-full px-3.5 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  <LogOut className="w-5 h-5" />
+                  <LogOut className="w-4 h-4" />
                   Logout
                 </button>
               </>
             ) : (
               <div className="flex flex-col gap-2 pt-2">
                 <Link to="/login" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    Login
-                  </Button>
+                  <Button variant="outline" className="w-full">Login</Button>
                 </Link>
                 <Link to="/signup" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full btn-primary">Sign Up</Button>
+                  <Button className="w-full">Sign Up</Button>
                 </Link>
               </div>
             )}
+            <div className="flex justify-center pt-2 border-t border-border mt-2">
+              <ThemeToggle />
+            </div>
           </div>
         )}
       </div>
