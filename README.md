@@ -2,6 +2,10 @@
 
 Donatio is a full-stack web platform that connects donors with verified non-profit organizations. Donors can browse organizations, submit donations, track their impact through a points and badge system, and earn certificates. Organizations can manage their profile, post donation needs, and process incoming donations.
 
+The platform supports two roles:
+- **Donors** — discover verified organizations, create donations, track statuses, view certificates, and check leaderboard ranking
+- **Organizations** — manage profile and donation needs, review incoming donations, accept or reject requests, complete donations, and award points
+
 ---
 
 ## Table of Contents
