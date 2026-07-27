@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPin, Award, Users, ArrowRight, Gift, Sparkles } from "lucide-react";
+import { MapPin, Award, Users, ArrowRight, Gift, Sparkles, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/Logo";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
