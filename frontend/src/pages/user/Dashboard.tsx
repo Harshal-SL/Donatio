@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MapPin, Search } from "lucide-react";
+import { MapPin, Search, Filter } from "lucide-react";
 import { Navbar } from "@/components/shared/Navbar";
 import { PageLayout } from "@/components/shared/PageLayout";
 import { OrganizationCard } from "@/components/shared/OrganizationCard";
