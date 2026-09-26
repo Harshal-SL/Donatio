@@ -1,0 +1,27 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every 3 days (e.g. 1st, 4th, 7th... of each month)
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  keep-alive:
+    name: Ping Supabase Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Run Supabase Keep-Alive Read Request
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://xtalowxxymzlsyhajway.supabase.co' }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0YWxvd3h4eW16bHN5aGFqd2F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNDA1NzksImV4cCI6MjA3ODYxNjU3OX0.sdRHKbe2YO1DIsyviFVLHrSegLaJ-VD0ZRF86pni5J0' }}
+        run: |
+          node backend/scripts/supabase-keep-alive.js

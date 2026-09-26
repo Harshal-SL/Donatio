@@ -6,6 +6,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const userRoutes = require('./routes/userRoutes');
 const orgRoutes = require('./routes/orgRoutes');
 const publicRoutes = require('./routes/publicRoutes');
+const healthRoutes = require('./routes/healthRoutes');
 
 const app = express();
 
@@ -24,6 +25,10 @@ app.get('/', (req, res) => {
     version: '1.0.0'
   });
 });
+
+// Health check and Supabase keep-alive routes
+app.use('/health', healthRoutes);
+app.use('/api/health', healthRoutes);
 
 app.use('/api/users', userRoutes);
 app.use('/api/organizations', orgRoutes);
